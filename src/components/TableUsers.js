@@ -4,9 +4,10 @@ import { fetchAllUsers } from "../services/UserService";
 import ReactPaginate from "react-paginate";
 import ModalAddNew from "./ModalAddNew";
 import ModalConfirm from "./ModalConfirm";
-import { _ } from "lodash";
+import  _  from "lodash";
 import { CSVLink } from "react-csv";
 import Papa from "papaparse";
+import { toast } from "react-toastify";
 
 const TableUsers = (props) => {
   const [isShowModalAddNew, setIsShowModalAddNew] = useState(false);
@@ -82,11 +83,50 @@ const TableUsers = (props) => {
   };
   const handleImportCSV = (e) => {
     const file = e.target.files[0];
-    Papa.parse(file, {
-      complete: function(results) {
-        console.log("Finished:", results.data);
-      }
-    });
+    if (file && file.type === "text/csv") {
+      Papa.parse(file, {
+        header: true,
+        complete: function (results) {
+          let rawCSV = results.data;
+          console.log();
+          if (rawCSV.length > 0 && Object.keys(rawCSV[0]).length === 3) {
+            if (rawCSV[0]) {
+              if (
+                Object.keys(rawCSV[0])[0] !== "Email" &&
+                Object.keys(rawCSV[0])[1] !== "First name" &&
+                Object.keys(rawCSV[0])[2] !== "Last name"
+              ) {
+                toast.error("File Header is not valid");
+              } else {
+                let result = [];
+                // eslint-disable-next-line
+                rawCSV.map((item, index) => {
+                
+                  if (index > 0 && Object.keys(item).length === 3) {
+                    let obj = {};
+                    obj.id = index;
+                    obj.email = item.Email;
+                    obj.first_name = item["First name"];
+                    obj.last_name = item["Last name"];
+                    result.push(obj);
+                   
+                    
+                  }
+                });
+                setUsers(result);
+             
+              }
+            } else {
+              toast.error("File is not valid");
+            }
+          } else {
+            toast.error("File is empty");
+          }
+        },
+      });
+    } else {
+      toast.error("File is not CSV");
+    }
   };
   return (
     <>
