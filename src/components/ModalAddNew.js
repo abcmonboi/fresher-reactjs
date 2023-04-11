@@ -1,18 +1,75 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
+import { postCreateUser, putUpdateUser } from "../services/UserService";
+import { toast } from "react-toastify";
+
 const ModalAddNew = (props) => {
-  const { handleClose, show } = props;
-  const [name, setName] = useState("");
-  const [job, setJob] = useState("");
-  const handleSaveUser = () => {
-    
-  
-    };
+  const { handleClose, show, handleUpdateUsers, mode, userInfo } = props;
+  const [name, setName] = useState();
+  const [job, setJob] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    setName(userInfo?.first_name);
+    setJob(userInfo?.job);
+  }, [userInfo]);
+  const handleSaveUser = async () => {
+    setIsLoading(true);
+    if (mode === "edit") {
+      await putUpdateUser(name, job).then((res) => {
+        if (res) {
+          handleClose();
+          setName("");
+          setJob("");
+          toast("☘️ Update User Successfully", {
+            draggable: true,
+            progress: undefined,
+          });
+
+          handleUpdateUsers({
+            id: userInfo.id,
+            first_name: res.name,
+            job: res.job,
+          });
+          setIsLoading(false);
+        } else {
+          toast.error("🦄 Wow error");
+          setIsLoading(false);
+        }
+      });
+    } else if (mode === "create") {
+      await postCreateUser(name, job).then((res) => {
+        if (res && res.id) {
+          handleClose();
+          setName("");
+          setJob("");
+          toast("☘️ Create User Successfully", {
+            draggable: true,
+            progress: undefined,
+          });
+
+          handleUpdateUsers({
+            id: res.id,
+            first_name: res.name,
+            job: res.job,
+          });
+          setIsLoading(false);
+        } else {
+          toast.error("🦄 Wow error");
+          setIsLoading(false);
+        }
+      });
+    }
+  };
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
+      <Modal
+        backdrop="static"
+        keyboard={false}
+        show={show}
+        onHide={handleClose}
+      >
         <Modal.Header closeButton>
-          <Modal.Title>Add new User</Modal.Title>
+          <Modal.Title>{mode ? "Edit User" : "Create User"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form>
@@ -34,7 +91,7 @@ const ModalAddNew = (props) => {
                 Job
               </label>
               <input
-                type="password"
+                type="text"
                 className="form-control"
                 id="exampleInputPassword1"
                 value={job}
@@ -47,8 +104,12 @@ const ModalAddNew = (props) => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleSaveUser}>
-            Save Changes
+          <Button
+            disabled={isLoading}
+            variant="primary"
+            onClick={handleSaveUser}
+          >
+            {mode ? "Update" : "Save"}
           </Button>
         </Modal.Footer>
       </Modal>
