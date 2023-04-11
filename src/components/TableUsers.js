@@ -67,7 +67,7 @@ const TableUsers = (props) => {
         breakClassName="page-item"
         breakLinkClassName="page-link"
         activeClassName="active"
-        x
+        
       />
     </>
   );
