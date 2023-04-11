@@ -4,6 +4,8 @@ import { fetchAllUsers } from "../services/UserService";
 import ReactPaginate from "react-paginate";
 import ModalAddNew from "./ModalAddNew";
 import ModalConfirm from "./ModalConfirm";
+import _ from "lodash";
+
 const TableUsers = (props) => {
   const [isShowModalAddNew, setIsShowModalAddNew] = useState(false);
   const [mode, setMode] = useState();
@@ -11,6 +13,8 @@ const TableUsers = (props) => {
   const [totalPages, setTotalPages] = useState(0);
   const [userInfo, setUserInfo] = useState({});
   const [isShowModalDelete, setIsShowModalDelete] = useState(false);
+  const [sortBy, setSortBy] = useState("asc");
+  const [sortByName, setSortByName] = useState("asc");
   useEffect(() => {
     //call api
     getUsers(1);
@@ -41,9 +45,8 @@ const TableUsers = (props) => {
       let newUsers = users.filter((item) => item.id !== user.id);
       setUsers(newUsers);
     }
-
   };
-
+console.log(users);
   return (
     <>
       <div className="my-3 add-new">
@@ -54,18 +57,81 @@ const TableUsers = (props) => {
           onClick={() => {
             setMode("create");
             setIsShowModalAddNew(true);
-          } }
+          }}
           className="btn btn-dark "
         >
-          Create User
+          <i className="fa-solid fa-plus text-danger"></i>
+          {" Create User"}
         </button>
       </div>
       <Table striped bordered hover variant="dark">
         <thead>
           <tr>
-            <th>ID</th>
+            <th
+              style={{
+                width: "80px",
+              }}
+            >
+              <div className="sort-table">
+                <span> ID </span>
+                <span>
+                  {sortBy === "asc" ? (
+                    <i
+                      onClick={() => {
+                        setSortBy("desc");
+                        setUsers([...users].sort((a, b) => b.id - a.id));
+                      }}
+                      className="fa-solid fa-arrow-down-wide-short"
+                    ></i>
+                  ) : (
+                    <i
+                      onClick={() => {
+                        setSortBy("asc");
+                        setUsers([...users].sort((a, b) => a.id - b.id));
+                      }}
+                      className="fa-solid fa-arrow-up-wide-short"
+                    ></i>
+                  )}
+                </span>
+              </div>
+            </th>
             <th>Email</th>
-            <th>First Name</th>
+            <th>
+              <div className="sort-table">
+                <span> First name </span>
+                <span>
+                  {sortByName === "asc" ? (
+                    <i
+                      onClick={() => {
+                        setSortByName("desc");
+
+                        let cloneListUsers = _.orderBy(
+                          users,
+                          ["first_name"],
+                          ["desc"]
+                        );
+                        setUsers(cloneListUsers);
+                      }}
+                      className="fa-solid fa-arrow-down-wide-short"
+                    ></i>
+                  ) : (
+                    <i
+                      onClick={() => {
+                        setSortByName("asc");
+
+                        let cloneListUsers = _.orderBy(
+                          users,
+                          ["first_name"],
+                          ["asc"]
+                        );
+                        setUsers(cloneListUsers);
+                      }}
+                      className="fa-solid fa-arrow-up-wide-short"
+                    ></i>
+                  )}
+                </span>
+              </div>
+            </th>
             <th>Last Name</th>
             <th
               style={{
@@ -96,20 +162,7 @@ const TableUsers = (props) => {
                         }}
                         className="btn btn-dark d-flex justify-content-center align-items-center "
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          fill="currentColor"
-                          class="bi bi-pencil-square"
-                          viewBox="0 0 16 16"
-                        >
-                          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                          <path
-                            fill-rule="evenodd"
-                            d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
-                          />
-                        </svg>
+                        <i className="fa-solid fa-pencil"></i>
                         <span
                           style={{
                             marginLeft: "5px",
@@ -130,17 +183,7 @@ const TableUsers = (props) => {
                           setMode("delete");
                         }}
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          fill="currentColor"
-                          class="bi bi-trash"
-                          viewBox="0 0 16 16"
-                        >
-                          <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
-                          <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
-                        </svg>
+                        <i className="fa-solid fa-trash"></i>
                         <span
                           style={{
                             marginLeft: "5px",
@@ -165,7 +208,7 @@ const TableUsers = (props) => {
         previousLabel="< previous"
         renderOnZeroPageCount={null}
         containerClassName="pagination "
-        pageClassName="page-item "
+        pageClassName="page-item bg-danger "
         pageLinkClassName="page-link "
         previousClassName="page-item "
         previousLinkClassName="page-link text-light bg-dark"
@@ -174,7 +217,6 @@ const TableUsers = (props) => {
         breakClassName="page-item text-light bg-dark"
         breakLinkClassName="page-link text-light bg-dark"
         activeClassName="active "
-     
       />
       <ModalAddNew
         show={isShowModalAddNew}
@@ -197,7 +239,6 @@ const TableUsers = (props) => {
         handleUpdateUsers={handleUpdateUsers}
         mode={mode}
         userInfo={userInfo}
-
       />
     </>
   );

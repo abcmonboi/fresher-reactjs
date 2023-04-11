@@ -106,8 +106,9 @@ const ModalAddNew = (props) => {
           </Button>
           <Button
             disabled={isLoading}
-            variant="primary"
+            variant="danger"
             onClick={handleSaveUser}
+       
           >
             {mode==="edit" && "Update"}
             {mode==="create" && "Create"}

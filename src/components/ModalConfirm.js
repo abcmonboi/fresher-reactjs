@@ -46,7 +46,7 @@ const ModalConfirm = (props) => {
           <Button disabled={isLoading} variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button disabled={isLoading} variant="primary" onClick={confirmDelete}>
+          <Button disabled={isLoading} variant="danger" onClick={confirmDelete}>
             Confirm
           </Button>
         </Modal.Footer>
