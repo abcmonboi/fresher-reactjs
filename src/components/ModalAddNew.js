@@ -5,8 +5,8 @@ import { toast } from "react-toastify";
 
 const ModalAddNew = (props) => {
   const { handleClose, show, handleUpdateUsers, mode, userInfo } = props;
-  const [name, setName] = useState();
-  const [job, setJob] = useState();
+  const [name, setName] = useState("");
+  const [job, setJob] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     setName(userInfo?.first_name);
@@ -82,7 +82,7 @@ const ModalAddNew = (props) => {
                 className="form-control"
                 id="exampleInputEmail1"
                 aria-describedby="emailHelp"
-                value={name}
+                value={name || ""}
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
@@ -94,7 +94,7 @@ const ModalAddNew = (props) => {
                 type="text"
                 className="form-control"
                 id="exampleInputPassword1"
-                value={job}
+                value={job || ""}
                 onChange={(e) => setJob(e.target.value)}
               />
             </div>

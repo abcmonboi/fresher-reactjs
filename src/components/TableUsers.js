@@ -6,6 +6,7 @@ import ModalAddNew from "./ModalAddNew";
 import ModalConfirm from "./ModalConfirm";
 import { _ } from "lodash";
 import { CSVLink } from "react-csv";
+import Papa from "papaparse";
 
 const TableUsers = (props) => {
   const [isShowModalAddNew, setIsShowModalAddNew] = useState(false);
@@ -17,6 +18,7 @@ const TableUsers = (props) => {
   const [sortBy, setSortBy] = useState("asc");
   const [sortByName, setSortByName] = useState("asc");
   const [keyword, setKeyword] = useState("");
+  const [dataExport, setDataExport] = useState([]);
   useEffect(() => {
     //call api
     getUsers(1);
@@ -62,7 +64,30 @@ const TableUsers = (props) => {
       getUsers(1);
     }
   };
-
+  const getUsersExport = (event, done) => {
+    let result = [];
+    if (users.length > 0 && users) {
+      result.push(["ID", "Email", "First name", "Last name"]);
+      users.map((item) => {
+        return result.push([
+          item.id,
+          item.email,
+          item.first_name,
+          item.last_name,
+        ]);
+      });
+      setDataExport(result);
+      done();
+    }
+  };
+  const handleImportCSV = (e) => {
+    const file = e.target.files[0];
+    Papa.parse(file, {
+      complete: function(results) {
+        console.log("Finished:", results.data);
+      }
+    });
+  };
   return (
     <>
       <div className="my-3 add-new">
@@ -70,17 +95,26 @@ const TableUsers = (props) => {
           <h5>List Users</h5>
         </span>
         <div className="group-btns">
-          <label className="btn btn-success" htmlFor="import-csv">
+          <label className="btn btn-secondary" htmlFor="import-csv">
             <i className="fa-solid fa-file-csv "></i>
             {" Import CSV"}
           </label>
-          <input id="import-csv" type="file" hidden />
+          <input
+            onChange={(e) => {
+              handleImportCSV(e);
+            }}
+            id="import-csv"
+            type="file"
+            hidden
+          />
 
           <CSVLink
-            data={users}
+            data={dataExport}
             filename={"my-file.csv"}
-            className="btn btn-primary"
+            className="btn btn-info"
             target="_blank"
+            asyncOnClick={true}
+            onClick={getUsersExport}
           >
             <i className="fa-solid fa-file-csv "></i>
             {" Export CSV"}
