@@ -4,7 +4,7 @@ import { fetchAllUsers } from "../services/UserService";
 import ReactPaginate from "react-paginate";
 import ModalAddNew from "./ModalAddNew";
 import ModalConfirm from "./ModalConfirm";
-import _ from "lodash";
+import { _ } from "lodash";
 
 const TableUsers = (props) => {
   const [isShowModalAddNew, setIsShowModalAddNew] = useState(false);
@@ -15,6 +15,7 @@ const TableUsers = (props) => {
   const [isShowModalDelete, setIsShowModalDelete] = useState(false);
   const [sortBy, setSortBy] = useState("asc");
   const [sortByName, setSortByName] = useState("asc");
+  const [keyword, setKeyword] = useState("");
   useEffect(() => {
     //call api
     getUsers(1);
@@ -46,12 +47,26 @@ const TableUsers = (props) => {
       setUsers(newUsers);
     }
   };
-console.log(users);
+
+  const handleSearch = (e) => {
+    setKeyword(e.target.value);
+
+    if (e.target.value !== "") {
+      let newUsers = users.filter((item) => {
+        return item.email.toLowerCase().includes(e.target.value.toLowerCase());
+      });
+
+      setUsers(newUsers);
+    } else {
+      getUsers(1);
+    }
+  };
+
   return (
     <>
       <div className="my-3 add-new">
         <span>
-          <b>List Users:</b>
+          <h5>List Users</h5>
         </span>
         <button
           onClick={() => {
@@ -63,6 +78,17 @@ console.log(users);
           <i className="fa-solid fa-plus text-danger"></i>
           {" Create User"}
         </button>
+      </div>
+      <div className="col-3 my-3">
+        <input
+          onChange={(e) => {
+            handleSearch(e);
+          }}
+          value={keyword}
+          type="text"
+          className="form-control border border-secondary"
+          placeholder="Search user by email..."
+        />
       </div>
       <Table striped bordered hover variant="dark">
         <thead>
@@ -208,14 +234,14 @@ console.log(users);
         previousLabel="< previous"
         renderOnZeroPageCount={null}
         containerClassName="pagination "
-        pageClassName="page-item bg-danger "
+        pageClassName="page-item  "
         pageLinkClassName="page-link "
         previousClassName="page-item "
-        previousLinkClassName="page-link text-light bg-dark"
+        previousLinkClassName="page-link "
         nextClassName="page-item "
-        nextLinkClassName="page-link text-light bg-dark "
-        breakClassName="page-item text-light bg-dark"
-        breakLinkClassName="page-link text-light bg-dark"
+        nextLinkClassName="page-link "
+        breakClassName="page-item "
+        breakLinkClassName="page-link "
         activeClassName="active "
       />
       <ModalAddNew
