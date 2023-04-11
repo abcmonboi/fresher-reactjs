@@ -164,16 +164,17 @@ const TableUsers = (props) => {
         pageCount={totalPages}
         previousLabel="< previous"
         renderOnZeroPageCount={null}
-        containerClassName="pagination"
-        pageClassName="page-item"
-        pageLinkClassName="page-link"
-        previousClassName="page-item"
-        previousLinkClassName="page-link"
-        nextClassName="page-item"
-        nextLinkClassName="page-link"
-        breakClassName="page-item"
-        breakLinkClassName="page-link"
-        activeClassName="active"
+        containerClassName="pagination "
+        pageClassName="page-item "
+        pageLinkClassName="page-link "
+        previousClassName="page-item "
+        previousLinkClassName="page-link text-light bg-dark"
+        nextClassName="page-item "
+        nextLinkClassName="page-link text-light bg-dark "
+        breakClassName="page-item text-light bg-dark"
+        breakLinkClassName="page-link text-light bg-dark"
+        activeClassName="active "
+     
       />
       <ModalAddNew
         show={isShowModalAddNew}

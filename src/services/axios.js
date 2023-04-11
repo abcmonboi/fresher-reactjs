@@ -3,7 +3,7 @@ const instance = axios.create({
     baseURL: "https://reqres.in/api"
 });
 instance.interceptors.response.use(function (response) {
-    return response.data;
+    return response.data ? response.data :  {statusCode: response.status}
 }, function (error) {
     return Promise.reject(error);
 });

@@ -109,7 +109,9 @@ const ModalAddNew = (props) => {
             variant="primary"
             onClick={handleSaveUser}
           >
-            {mode ? "Update" : "Save"}
+            {mode==="edit" && "Update"}
+            {mode==="create" && "Create"}
+            
           </Button>
         </Modal.Footer>
       </Modal>

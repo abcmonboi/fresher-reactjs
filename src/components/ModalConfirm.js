@@ -1,12 +1,26 @@
-import React from "react";
+import React,{useState} from "react";
 import { Modal, Button } from "react-bootstrap";
-
+import { deleteUser } from "../services/UserService";
+import { toast } from "react-toastify";
 const ModalConfirm = (props) => {
   const { handleClose, show, userInfo, handleUpdateUsers } = props;
-
-  const confirmDelete = () => {
-    handleClose();
-    handleUpdateUsers(userInfo);
+  const [isLoading, setIsLoading] = useState(false);
+  const confirmDelete = async () => {
+    setIsLoading(true);
+    await deleteUser(userInfo.id).then((res) => {
+      if (res.statusCode === 204) {
+        handleClose();
+        toast("🚨 Delete User Successfully", {
+          draggable: true,
+          progress: undefined,
+        });
+        handleUpdateUsers(userInfo);
+        setIsLoading(false);
+      } else {
+        toast.error("🦄 Wow error");
+        setIsLoading(false);
+      }
+    });
   };
 
   return (
@@ -29,10 +43,10 @@ const ModalConfirm = (props) => {
           This action cannot be undone.
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button disabled={isLoading} variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={confirmDelete}>
+          <Button disabled={isLoading} variant="primary" onClick={confirmDelete}>
             Confirm
           </Button>
         </Modal.Footer>

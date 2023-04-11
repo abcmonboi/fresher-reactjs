@@ -9,5 +9,8 @@ const postCreateUser = (name,job) => {
 const putUpdateUser = (name,job) => {
     return axiosConfig.put(`/users/`,{name,job});
 }
+const deleteUser = (id) => {
+    return axiosConfig.delete(`/users/${id}`);
+}
 
-export { fetchAllUsers , postCreateUser,putUpdateUser}
+export { fetchAllUsers , postCreateUser,putUpdateUser,deleteUser}
