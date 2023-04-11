@@ -16,6 +16,12 @@ code {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  .group-btns {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
 }
 .sort-table {
   display: flex;

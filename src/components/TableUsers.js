@@ -5,6 +5,7 @@ import ReactPaginate from "react-paginate";
 import ModalAddNew from "./ModalAddNew";
 import ModalConfirm from "./ModalConfirm";
 import { _ } from "lodash";
+import { CSVLink } from "react-csv";
 
 const TableUsers = (props) => {
   const [isShowModalAddNew, setIsShowModalAddNew] = useState(false);
@@ -68,16 +69,33 @@ const TableUsers = (props) => {
         <span>
           <h5>List Users</h5>
         </span>
-        <button
-          onClick={() => {
-            setMode("create");
-            setIsShowModalAddNew(true);
-          }}
-          className="btn btn-dark "
-        >
-          <i className="fa-solid fa-plus text-danger"></i>
-          {" Create User"}
-        </button>
+        <div className="group-btns">
+          <label className="btn btn-success" htmlFor="import-csv">
+            <i className="fa-solid fa-file-csv "></i>
+            {" Import CSV"}
+          </label>
+          <input id="import-csv" type="file" hidden />
+
+          <CSVLink
+            data={users}
+            filename={"my-file.csv"}
+            className="btn btn-primary"
+            target="_blank"
+          >
+            <i className="fa-solid fa-file-csv "></i>
+            {" Export CSV"}
+          </CSVLink>
+          <button
+            onClick={() => {
+              setMode("create");
+              setIsShowModalAddNew(true);
+            }}
+            className="btn btn-dark "
+          >
+            <i className="fa-solid fa-circle-plus text-danger"></i>
+            {" Add User"}
+          </button>
+        </div>
       </div>
       <div className="col-3 my-3">
         <input
