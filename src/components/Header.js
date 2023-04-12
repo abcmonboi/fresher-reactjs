@@ -13,24 +13,25 @@ const Header = (props) => {
             src={logo}
             style={{
               marginRight: "10px",
-              alignItems: "bottom",
             }}
             alt="logo"
-            width="30"
-            height="30"
+            width="40"
+            height="40"
             className="d-inline-block"
           ></img>
-          <Navbar.Brand href="/">{"Practice"}</Navbar.Brand>
+          <Navbar.Brand > <NavLink to="/" className="nav-link" >
+          {"Practice"}
+              </NavLink></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <NavLink to="/" className="nav-link" activeClassName="active">
+              <NavLink to="/" className="nav-link" activeclassname="active">
                 Home
               </NavLink>
               <NavLink
                 to="/users"
                 className="nav-link"
-                activeClassName="active"
+                activeclassname="active"
               >
                 Manage User
               </NavLink>
