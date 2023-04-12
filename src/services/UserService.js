@@ -12,5 +12,7 @@ const putUpdateUser = (name,job) => {
 const deleteUser = (id) => {
     return axiosConfig.delete(`/users/${id}`);
 }
-
-export { fetchAllUsers , postCreateUser,putUpdateUser,deleteUser}
+const loginApi = (email,password) => {
+    return axiosConfig.post(`/login`,{email,password});
+}
+export { fetchAllUsers , postCreateUser,putUpdateUser,deleteUser,loginApi}
