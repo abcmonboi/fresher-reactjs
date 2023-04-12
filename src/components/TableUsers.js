@@ -4,7 +4,7 @@ import { fetchAllUsers } from "../services/UserService";
 import ReactPaginate from "react-paginate";
 import ModalAddNew from "./ModalAddNew";
 import ModalConfirm from "./ModalConfirm";
-import  _  from "lodash";
+import _ from "lodash";
 import { CSVLink } from "react-csv";
 import Papa from "papaparse";
 import { toast } from "react-toastify";
@@ -81,6 +81,7 @@ const TableUsers = (props) => {
       done();
     }
   };
+
   const handleImportCSV = (e) => {
     const file = e.target.files[0];
     if (file && file.type === "text/csv") {
@@ -88,7 +89,6 @@ const TableUsers = (props) => {
         header: true,
         complete: function (results) {
           let rawCSV = results.data;
-          console.log();
           if (rawCSV.length > 0 && Object.keys(rawCSV[0]).length === 3) {
             if (rawCSV[0]) {
               if (
@@ -101,7 +101,6 @@ const TableUsers = (props) => {
                 let result = [];
                 // eslint-disable-next-line
                 rawCSV.map((item, index) => {
-                
                   if (index > 0 && Object.keys(item).length === 3) {
                     let obj = {};
                     obj.id = index;
@@ -109,8 +108,6 @@ const TableUsers = (props) => {
                     obj.first_name = item["First name"];
                     obj.last_name = item["Last name"];
                     result.push(obj);
-                   
-                    
                   }
                 });
                 setUsers(result);
@@ -120,7 +117,7 @@ const TableUsers = (props) => {
               toast.error("File is not valid");
             }
           } else {
-            toast.error("File is empty");
+            toast.error("File Header is not valid or File is empty");
           }
         },
       });
@@ -128,6 +125,7 @@ const TableUsers = (props) => {
       toast.error("File is not CSV");
     }
   };
+
   return (
     <>
       <div className="my-3 add-new">
