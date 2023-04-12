@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginApi } from "../services/UserService";
 import { toast } from "react-toastify";
+import { UserContext } from "../context/UserContext";
+import { useContext } from "react";
 const Login = () => {
+  const { loginContext } = useContext(UserContext);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,16 +19,16 @@ const Login = () => {
       return;
     }
 
-    let res = await loginApi(email, password);
+    let res = await loginApi(email.trim(), password.trim());
     //   {
     //     eve.holt@reqres.in
     //     cityslicka
     // }
 
     if (res && res.token) {
-      toast.success("Login success");
+      toast.success(`Welcome ${email}`);
       setIsLogging(false);
-      localStorage.setItem("token", res.token);
+      loginContext(email.trim(), res.token);
       navigate("/");
     } else {
       if (res && res.status === 400) {
@@ -38,10 +41,11 @@ const Login = () => {
   };
   useEffect(() => {
     let token = localStorage.getItem("token");
-     if (token) {
+    if (token) {
       navigate("/");
     }
   });
+
   return (
     <>
       <div className="login-container col-lg-8 col-sm-6  col-xl-4">
@@ -52,17 +56,29 @@ const Login = () => {
           onChange={(e) => {
             setEmail(e.target.value);
           }}
-          placeholder="Email or Username"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleLogin();
+            }
+
+          }}
+          placeholder="eve.holt@reqres.in"
           type="text"
           className="input"
         />
         <div className="position-relative">
           <input
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleLogin();
+              }
+
+            }}
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
             }}
-            placeholder="Password"
+            placeholder="cityslicka"
             type={isShow ? "text" : "password"}
             className="input w-100 "
           />
@@ -84,14 +100,17 @@ const Login = () => {
           onClick={() => {
             handleLogin();
           }}
+
         >
-          {isLogging ? <i class="fas fa-circle-notch fa-spin"></i> : "Log in"}
+          {isLogging ? <i className="fas fa-circle-notch fa-spin"></i> : "Log in"}
         </button>
         <div role="button" className="mt-5 text-center ">
-          <i className="fa-solid fa-angles-left"></i>
-          <span className="fw-semibold fs-6 ">
-            <u>Go Back</u>
-          </span>
+          <Link to="/" className="nav-link">
+            <i class="fa-solid fa-house"></i>
+            <span className="fw-semibold fs-6 ">
+              <u> Home</u>
+            </span>
+          </Link>
         </div>
       </div>
     </>

@@ -128,11 +128,11 @@ const TableUsers = (props) => {
 
   return (
     <>
-      <div className="my-3 add-new">
-        <span>
+      <div className="my-3 add-new d-sm-flex">
+        <span className="">
           <h5>List Users</h5>
         </span>
-        <div className="group-btns">
+        <div className="group-btns mt-sm-0 mt-3">
           <label className="btn btn-secondary" htmlFor="import-csv">
             <i className="fa-solid fa-file-csv "></i>
             {" Import CSV"}
@@ -169,7 +169,7 @@ const TableUsers = (props) => {
           </button>
         </div>
       </div>
-      <div className="col-3 my-3">
+      <div className="col-12 col-xs-2 my-3 col-lg-3">
         <input
           onChange={(e) => {
             handleSearch(e);
@@ -180,6 +180,7 @@ const TableUsers = (props) => {
           placeholder="Search user by email..."
         />
       </div>
+      <div className="customize-tablemobile">
       <Table striped bordered hover variant="dark">
         <thead>
           <tr>
@@ -315,6 +316,7 @@ const TableUsers = (props) => {
             })}
         </tbody>
       </Table>
+      </div>
       <ReactPaginate
         breakLabel="..."
         nextLabel="next >"
@@ -324,15 +326,18 @@ const TableUsers = (props) => {
         previousLabel="< previous"
         renderOnZeroPageCount={null}
         containerClassName="pagination "
-        pageClassName="page-item  "
-        pageLinkClassName="page-link "
-        previousClassName="page-item "
-        previousLinkClassName="page-link "
-        nextClassName="page-item "
-        nextLinkClassName="page-link "
+        pageClassName="text-dark"
+        pageLinkClassName="page-link text-dark "
+        previousClassName=""
+        previousLinkClassName="page-link text-danger "
+        nextClassName=" "
+        nextLinkClassName="page-link text-danger"
         breakClassName="page-item "
         breakLinkClassName="page-link "
-        activeClassName="active "
+        activeClassName="bg-dark "
+        activeLinkClassName="bg-dark text-white "
+        disabledClassName="text-black"
+        disabledLinkClassName ="text-black"
       />
       <ModalAddNew
         show={isShowModalAddNew}

@@ -13,7 +13,7 @@ code {
     monospace;
 }
 .add-new {
-  display: flex;
+  // display: flex;
   justify-content: space-between;
   align-items: center;
   .group-btns {
@@ -62,4 +62,15 @@ code {
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
+}
+.customize-tablemobile {
+  overflow-x: auto;
+  width: inherit;
+}
+.page-link {
+  background-color: #000000;
+}
+.pagination {
+  justify-content: center;
+ 
 }
