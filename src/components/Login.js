@@ -49,8 +49,8 @@ const Login = () => {
   return (
     <>
       <div className="login-container col-lg-8 col-sm-6  col-xl-4">
-        <div className="title">Log in</div>
-        <div className="text">{"Email or username"}</div>
+        <div className="title text-white">Log in</div>
+        <div className=" text-white">{"Email or username"}</div>
         <input
           value={email}
           onChange={(e) => {
@@ -96,7 +96,7 @@ const Login = () => {
         </div>
         <button
           disabled={email.length === 0 || password.length === 0 || isLogging}
-          className="btn btn-dark mt-3"
+          className="btn btn-dark mt-3 "
           onClick={() => {
             handleLogin();
           }}
@@ -104,11 +104,11 @@ const Login = () => {
         >
           {isLogging ? <i className="fas fa-circle-notch fa-spin"></i> : "Log in"}
         </button>
-        <div role="button" className="mt-5 text-center ">
+        <div role="button" className="mt-5 text-center  text-white ">
           <Link to="/" className="nav-link">
             <i class="fa-solid fa-house"></i>
             <span className="fw-semibold fs-6 ">
-              <u> Home</u>
+              <u > Home</u>
             </span>
           </Link>
         </div>

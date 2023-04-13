@@ -1,31 +1,55 @@
-import React from 'react';
-import { useTheme, Text } from '@nextui-org/react';
-
-
+import React, { Fragment } from "react";
+import { Text, Col, Grid, Button } from "@nextui-org/react";
+import background from "../assets/images/bg-landscape.avif";
+import { useContext } from "react";
+import { UserContext } from "../context/UserContext";
+import InfoCard from "./InfoCard";
 const Home = () => {
-    const { theme } = useTheme();
-
+  const { user } = useContext(UserContext);
   return (
-    <>
-      <Text
+    <Fragment>
+      <Grid.Container
+        fluid
+        justify="center"
         css={{
-          color: '$blue800',
-          fontSize: '$sm',
-          padding: '$2 $4'
+          height: "600px",
+          backgroundImage: `url(${background})`,
+          backgroundSize: "contain",
+          backgroundPosition: "center",
+          width: "100%",
         }}
       >
-        Using tokens
-      </Text>
-      <p
-        style={{
-          color: theme.colors.gradient.value,
-          fontSize: theme.fontSizes.sm.value,
-          padding: `${theme.space[2].value} ${theme.space[4].value}`
-        }}
-      >
-        Using color theme value
-      </p>
-    </>
+        <Grid xs={12} md={8} lg={6} xl={4} alignItems="center">
+          <Col css={{ width: "100%" }}>
+            <Text weight="bold" size={70} css={{ textAlign: "center" }}>
+              {user?.email ? "Welcome" : "Produce by"}
+            </Text>
+            <Text weight="bold" size={70} css={{ textAlign: "center" }}>
+              {user?.email ? user?.email.split("@")[0] : "ABboy"}
+            </Text>
+            <Button
+              size="md"
+              shadow
+              color="gradient"
+              css={{ width: "100%", marginTop: "10px" }}
+            >
+              Let's Cook Together
+            </Button>
+          </Col>
+        </Grid>
+      </Grid.Container>
+      <Grid.Container gap={2}>
+        <Grid xs={12} md={6} lg={4}>
+          <InfoCard />
+        </Grid>
+        <Grid xs={12} md={6} lg={4}>
+          <InfoCard />
+        </Grid>
+        <Grid xs={12} md={6} lg={4}>
+          <InfoCard />
+        </Grid>
+      </Grid.Container>
+    </Fragment>
   );
 };
 

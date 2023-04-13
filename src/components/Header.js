@@ -7,6 +7,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
+
 const Header = (props) => {
   const navigate = useNavigate();
   const { logout, user } = useContext(UserContext);

@@ -1,4 +1,3 @@
-import Container from "react-bootstrap/Container";
 import "./App.scss";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -7,6 +6,7 @@ import { UserContext } from "./context/UserContext";
 import { useContext } from "react";
 import { useEffect } from "react";
 import AppRouters from "./routers/AppRouters";
+import { Container } from "@nextui-org/react";
 function App() {
   const { loginContext } = useContext(UserContext);
 
@@ -23,8 +23,15 @@ function App() {
     <>
       <div className="app-container">
         <Header />
-        <Container>
-      <AppRouters/>
+        <Container
+          fluid
+          css={{
+            backgroundColor: "#000000",
+            margin: "0",
+            padding: "0",
+          }}
+        >
+          <AppRouters />
         </Container>
       </div>
 

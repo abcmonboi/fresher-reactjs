@@ -6,13 +6,18 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { UserProvider } from "./context/UserContext";
-
+import { NextUIProvider,createTheme } from '@nextui-org/react';
+const darkTheme = createTheme({
+  type: 'dark',
+});
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
   <UserProvider>
   <BrowserRouter>
+    <NextUIProvider theme={darkTheme}>
     <App />
+    </NextUIProvider>
   </BrowserRouter>,
   </UserProvider>
   // </React.StrictMode>

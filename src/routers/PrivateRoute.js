@@ -2,6 +2,8 @@ import React from "react";
 import TableUsers from "../components/TableUsers";
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
+import Container from "react-bootstrap/Container";
+
 const PrivateRoute = () => {
   const { user } = useContext(UserContext);
 
@@ -12,7 +14,9 @@ const PrivateRoute = () => {
   }
   return (
     <>
+      <Container>
       <TableUsers />
+      </Container>
     </>
   );
 };

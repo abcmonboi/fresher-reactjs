@@ -15,6 +15,7 @@ const AppRouters = () => {
         <Route path="/users" element={<PrivateRoute />}></Route>
         <Route path="*" element={<NotFound/>}></Route>
       </Routes>
+      
     </>
   );
 };
